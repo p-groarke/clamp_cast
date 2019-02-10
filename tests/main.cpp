@@ -8,16 +8,6 @@
 #include <random>
 #include <tuple>
 
-template <class... Args>
-void unused(Args...) noexcept {
-}
-
-template <class Tuple, class Func>
-void for_each(Tuple& tuple, Func&& func) noexcept {
-	std::apply([&](auto... args) { (std::invoke(func, args), ...); }, tuple);
-}
-
-
 #define test_hi_to_lo(T, U) \
 	{ \
 		T t = std::numeric_limits<T>::lowest(); \
@@ -63,6 +53,15 @@ void for_each(Tuple& tuple, Func&& func) noexcept {
 	}
 
 namespace {
+template <class... Args>
+void unused(Args...) noexcept {
+}
+
+template <class Tuple, class Func>
+void for_each(Tuple& tuple, Func&& func) noexcept {
+	std::apply([&](auto... args) { (std::invoke(func, args), ...); }, tuple);
+}
+
 template <class T, class U>
 void debug_hi_to_lo() {
 	T t = std::numeric_limits<T>::lowest();
