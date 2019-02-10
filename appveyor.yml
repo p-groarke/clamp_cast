@@ -12,10 +12,10 @@ build:
     project: c:\projects\clamp_cast\build\clamp_cast.sln
     parallel: true
 install:
-    - cmmd: set PATH=%PATH%;%PYTHON%/Scripts/
-    - cmmd: pip.exe install conan
-    - cmmd: conan user
-    - cmmd: conan --version
-    - cmmd: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan --force
+    - cmd: set PATH=%PATH%;%PYTHON%/Scripts/
+    - cmd: pip.exe install conan
+    - cmd: conan --version
+    - cmd: conan user
+    - cmd: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan --force
 test_script:
     - cmd: c:\projects\clamp_cast\build\bin\clamp_cast_tests.exe
