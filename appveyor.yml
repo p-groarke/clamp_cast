@@ -1,0 +1,15 @@
+image:
+  - Visual Studio 2017
+platform:
+  - x64
+configuration:
+  - Debug
+  - Release
+clone_folder: c:\projects\clamp_cast
+before_build:
+  - cmd: cd c:\projects\clamp_cast & mkdir build & cd build & cmake .. -A x64 -DBUILD_TESTING=On"
+build:
+  project: c:\projects\clamp_cast\build\clamp_cast.sln
+  parallel: true
+test_script:
+  - cmd: c:\projects\clamp_cast\build\bin\clamp_cast_tests.exe
