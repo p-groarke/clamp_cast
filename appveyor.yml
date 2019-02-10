@@ -17,10 +17,8 @@ build:
   parallel: true
 install:
   - cmd: set PATH=%PATH%;%PYTHON%/Scripts/
-  - cmd: where pip
   - cmd: pip.exe install conan
   - cmd: cd ..
-  - cmd: where conan
   - cmd: conan user
   - cmd: conan --version
   - cmd: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
