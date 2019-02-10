@@ -319,29 +319,108 @@ TEST(clamp_cast, all_permutations) {
 				d128 v2_hi128 = static_cast<d128>(v2_hi);
 
 				val_t1 v1 = clamp_cast<val_t1>(v2_low);
-				if (v1_low128 < v2_low128) {
+				if (v1_low128 <= v2_low128) {
 					EXPECT_EQ(v1, static_cast<val_t1>(v2_low));
 				} else {
 					EXPECT_EQ(v1, v1_low);
 				}
 				v1 = clamp_cast<val_t1>(v2_hi);
-				if (v1_hi128 > v2_hi128) {
+				if (v1_hi128 >= v2_hi128) {
 					EXPECT_EQ(v1, static_cast<val_t1>(v2_hi));
 				} else {
 					EXPECT_EQ(v1, v1_hi);
 				}
 
 				val_t2 v2 = clamp_cast<val_t2>(v1_low);
-				if (v2_low128 < v1_low128) {
+				if (v2_low128 <= v1_low128) {
 					EXPECT_EQ(v2, static_cast<val_t2>(v1_low));
 				} else {
 					EXPECT_EQ(v2, v2_low);
 				}
 				v2 = clamp_cast<val_t2>(v1_hi);
-				if (v2_hi128 > v1_hi128) {
+				if (v2_hi128 >= v1_hi128) {
 					EXPECT_EQ(v2, static_cast<val_t2>(v1_hi));
 				} else {
 					EXPECT_EQ(v2, v2_hi);
+				}
+			}
+		});
+	});
+}
+
+TEST(clamp_cast, edges) {
+	std::tuple<uint64_t, uint32_t, uint16_t, uint8_t, int64_t, int32_t, int16_t,
+			int8_t, long double, double, float>
+			all_types{};
+
+	for_each(all_types, [&](auto val1) {
+		for_each(all_types, [&](auto val2) {
+			unused(val1, val2);
+			using val_t1 = std::decay_t<decltype(val1)>;
+			using val_t2 = std::decay_t<decltype(val2)>;
+
+			val_t1 v1_low = std::numeric_limits<val_t1>::lowest();
+			val_t1 v1_hi = std::numeric_limits<val_t1>::max();
+			val_t2 v2_low = std::numeric_limits<val_t2>::lowest();
+			val_t2 v2_hi = std::numeric_limits<val_t2>::max();
+
+			using namespace boost::multiprecision;
+			using d128 = cpp_bin_float_quad;
+
+			d128 v1_low128 = static_cast<d128>(v1_low);
+			d128 v1_hi128 = static_cast<d128>(v1_hi);
+			d128 v2_low128 = static_cast<d128>(v2_low);
+			d128 v2_hi128 = static_cast<d128>(v2_hi);
+
+			constexpr val_t1 edges{ 20 };
+
+			if constexpr (std::is_floating_point_v<val_t1>) {
+				val_t1 stop_iter = std::nextafter(v1_low, v1_hi);
+				for (size_t i = 0; i < edges; ++i) {
+					stop_iter = std::nextafter(stop_iter, v1_hi);
+				}
+
+				for (val_t1 i = v1_low; i < stop_iter;
+						i = std::nextafter(i, v1_hi)) {
+					val_t2 v2 = clamp_cast<val_t2>(i);
+					if (v2_low128 <= v1_low128) {
+						EXPECT_EQ(v2, static_cast<val_t2>(i));
+					} else {
+						EXPECT_EQ(v2, v2_low);
+					}
+				}
+
+				stop_iter = std::nextafter(v1_hi, v1_low);
+				for (size_t i = 0; i < edges; ++i) {
+					stop_iter = std::nextafter(stop_iter, v1_low);
+				}
+
+				for (val_t1 i = v1_hi; i > stop_iter;
+						i = std::nextafter(i, v1_low)) {
+					val_t2 v2 = clamp_cast<val_t2>(i);
+					if (v2_hi128 >= v1_hi128) {
+						EXPECT_EQ(v2, static_cast<val_t2>(i));
+					} else {
+						EXPECT_EQ(v2, v2_hi);
+					}
+				}
+			} else {
+				for (val_t1 i = v1_low; i < v1_low + edges; ++i) {
+					val_t2 v2 = clamp_cast<val_t2>(i);
+					if (v2_low128 <= v1_low128) {
+						EXPECT_EQ(v2, static_cast<val_t2>(i));
+					} else {
+						EXPECT_EQ(v2, v2_low);
+					}
+				}
+
+				for (val_t1 i = v1_hi; i > v1_hi - edges; --i) {
+					val_t2 v2 = clamp_cast<val_t2>(i);
+					if (v2_hi128 >= v1_hi128) {
+						EXPECT_EQ(v2, static_cast<val_t2>(i));
+					} else {
+						EXPECT_EQ(v2, v2_hi);
+					}
 				}
 			}
 		});
