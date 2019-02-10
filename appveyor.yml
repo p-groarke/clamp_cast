@@ -1,9 +1,5 @@
 image:
     - Visual Studio 2017
-environment:
-    PYTHON: "C:\\Python37-x64"
-    PYTHON_VERSION: "3.7.x"
-    PYTHON_ARCH: "64"
 platform:
     - x64
 configuration:
@@ -11,14 +7,15 @@ configuration:
     - Release
 clone_folder: c:\projects\clamp_cast
 before_build:
-    - cmd: cd c:\projects\clamp_cast & mkdir build & cd build & ..\conan.bat & cmake .. -A x64 -DBUILD_TESTING=On"
+    - cmd: cd c:\projects\clamp_cast & mkdir build & cd build & ..\conan.bat & cmake .. -A x64 -DBUILD_TESTING=On
 build:
     project: c:\projects\clamp_cast\build\clamp_cast.sln
     parallel: true
 install:
-    - cmd: set PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%
+    - cmd: set PATH=%PATH%;%PYTHON%/Scripts/
     - cmd: pip.exe install conan
     - cmd: conan user
+    - cmd: conan --version
     - cmd: conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan --force
 test_script:
     - cmd: c:\projects\clamp_cast\build\bin\clamp_cast_tests.exe
