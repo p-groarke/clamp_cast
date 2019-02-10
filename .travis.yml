@@ -16,6 +16,11 @@ before_install:
       cd ..;
     fi
 
+install:
+  - pip install conan
+  - conan user
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+
 matrix:
   include:
     - os: osx
@@ -77,7 +82,7 @@ matrix:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && CONFIG=Release"
 
 script:
-  - mkdir build && cd build && cmake .. -DBUILD_TESTING=On && cmake --build . && ./bin/clamp_cast_tests
+  - mkdir build && cd build && ..\conan.sh && cmake .. -DBUILD_TESTING=On && cmake --build . && ./bin/clamp_cast_tests
 
 notifications:
   email:
