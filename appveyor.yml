@@ -1,15 +1,23 @@
 image:
-  - Visual Studio 2017
+    - Visual Studio 2017
+environment:
+    PYTHON: "C:\\Python27"
+    PYTHON_VERSION: "2.7.8"
+    PYTHON_ARCH: "32"
 platform:
-  - x64
+    - x64
 configuration:
-  - Debug
-  - Release
+    - Debug
+    - Release
 clone_folder: c:\projects\clamp_cast
 before_build:
-  - cmd: cd c:\projects\clamp_cast & mkdir build & cd build & cmake .. -A x64 -DBUILD_TESTING=On"
+    - cmd: cd c:\projects\clamp_cast & mkdir build & cd build & ..\conan.bat & cmake .. -A x64 -DBUILD_TESTING=On"
 build:
-  project: c:\projects\clamp_cast\build\clamp_cast.sln
-  parallel: true
+    project: c:\projects\clamp_cast\build\clamp_cast.sln
+    parallel: true
+install:
+    - set PATH=%PATH%;%PYTHON%/Scripts/
+    - pip.exe install conan --upgrade
+    - pip.exe install conan_package_tools
 test_script:
-  - cmd: c:\projects\clamp_cast\build\bin\clamp_cast_tests.exe
+    - cmd: c:\projects\clamp_cast\build\bin\clamp_cast_tests.exe

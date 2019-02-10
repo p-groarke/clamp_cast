@@ -1,4 +1,7 @@
 # clamp_cast
+[![Build Status](https://travis-ci.org/p-groarke/clamp_cast.svg?branch=master)](https://travis-ci.org/p-groarke/clamp_cast)
+[![Build status](https://ci.appveyor.com/api/projects/status/3rbs7dj430w854ge/branch/master?svg=true)](https://ci.appveyor.com/project/p-groarke/clamp-cast/branch/master)
+
 A narrowing cast that does the right thing. `clamp_cast` will saturate output values at min or max if the input value would overflow / underflow.
 
 ## Examples
