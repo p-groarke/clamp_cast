@@ -89,11 +89,7 @@ option(BUILD_TESTING "Build and run tests." Off)
 if (${BUILD_TESTING})
 	enable_testing()
 	
-	if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
-		include(${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
-	else()
-		include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-	endif()
+	include(${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
 	conan_basic_setup(TARGETS)
 	
 	set(TEST_NAME ${PROJECT_NAME}_tests)

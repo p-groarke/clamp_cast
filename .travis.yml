@@ -17,7 +17,7 @@ before_install:
     fi
 
 install:
-  - pip install --user conan
+  - pip install conan --upgrade
   - conan user
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
