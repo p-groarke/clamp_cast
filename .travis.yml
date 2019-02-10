@@ -17,6 +17,7 @@ before_install:
     fi
 
 install:
+  - pip3 install setuptools -U
   - pip3 install conan --upgrade
   - pip3 install conan_package_tools
   - conan user
