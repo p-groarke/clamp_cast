@@ -1,6 +1,6 @@
 [requires]
 gtest/1.8.0@bincrafters/stable
-boost_multiprecision/1.69.0@bincrafters/stable
+boost_multiprecision/1.67.0@bincrafters/stable
 
 [generators]
 cmake_multi
