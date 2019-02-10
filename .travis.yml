@@ -82,7 +82,12 @@ matrix:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && CONFIG=Release"
 
 script:
-  - mkdir build && cd build && ../conan.sh && cmake .. -DBUILD_TESTING=On && cmake --build . && ./bin/clamp_cast_tests
+  - mkdir build && cd build
+  - conan install .. --build missing -s build_type=Debug
+  - conan install .. --build missing -s build_type=Release
+  - cmake .. -DBUILD_TESTING=On
+  - cmake --build .
+  - ./bin/clamp_cast_tests
 
 notifications:
   email:
