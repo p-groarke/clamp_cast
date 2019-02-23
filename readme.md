@@ -9,11 +9,11 @@ A narrowing cast that does the right thing. `clamp_cast` will saturate output va
 ```c++
 double ld = -42.0;
 unsigned char uc = clamp_cast<unsigned char>(ld);
-// uc = 0
+// uc == 0
 
 float f = 500000.f;
 char c = clamp_cast<char>(f);
-// c = 127;
+// c == 127
 ```
 
 ## Build
