@@ -53,7 +53,7 @@ template <class T>
 #pragma warning(push)
 #pragma warning(disable : 4756)
 template <class In, class Out>
-[[nodiscard]] Out clamp_hi_in(In in) {
+[[nodiscard]] constexpr Out clamp_hi_in(In in) {
 	constexpr In low = static_cast<In>(std::numeric_limits<Out>::lowest());
 	constexpr In hi = static_cast<In>(std::numeric_limits<Out>::max());
 
@@ -68,7 +68,7 @@ template <class In, class Out>
 #pragma warning(pop)
 
 template <class InUnsigned, class Out>
-[[nodiscard]] Out clamp_hi_in_unsigned(InUnsigned in) {
+[[nodiscard]] constexpr Out clamp_hi_in_unsigned(InUnsigned in) {
 	constexpr InUnsigned low = 0;
 	constexpr InUnsigned hi
 			= static_cast<InUnsigned>(std::numeric_limits<Out>::max());
@@ -83,7 +83,7 @@ template <class InUnsigned, class Out>
 } // namespace detail
 
 template <class Out, class In>
-[[nodiscard]] Out clamp_cast(In in) {
+[[nodiscard]] constexpr Out clamp_cast(In in) {
 	static_assert(std::is_arithmetic_v<In>,
 			"saturate_cast : input type must be arithmetic");
 	static_assert(std::is_arithmetic_v<Out>,
